@@ -94,6 +94,7 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .key-tag {
             background: rgba(255,255,255,0.1);
@@ -123,7 +124,7 @@
         </div>
         
         <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1 active:scale-95">
-            เริ่มภารกิจ
+            เริ่มภารกิจ (Enter)
         </button>
     </div>
 
@@ -155,6 +156,12 @@
             <div class="absolute bottom-5 left-5 text-7xl z-20 filter drop-shadow-xl transform -scale-x-100">🏰</div>
             <div class="absolute bottom-2 left-28 text-xs text-white/50 bg-black/30 px-3 py-1 rounded-full">เขตปลอดภัย</div>
             
+            <!-- Hint Popup (Ctrl+Enter) -->
+            <div id="hintPopup" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/90 text-white px-10 py-12 rounded-3xl shadow-2xl z-50 border-4 border-yellow-400 pop-in ring-4 ring-white/20 text-center">
+                <div class="text-xl text-gray-400 mb-2">คำที่ต้องพิมพ์</div>
+                <div id="hintWordDisplay" class="text-6xl md:text-8xl font-black text-yellow-300 tracking-wider">...</div>
+            </div>
+
             <!-- Feedback Popup with Choices -->
             <div id="contextFeedback" class="hidden absolute top-1/4 left-1/2 transform -translate-x-1/2 bg-white/95 text-slate-900 px-8 py-8 rounded-2xl shadow-2xl z-50 max-w-2xl w-full text-center border-t-8 border-emerald-500 pop-in ring-8 ring-black/20" role="alert" aria-live="assertive">
                 <div class="text-6xl mb-4 animate-bounce">💡</div>
@@ -195,8 +202,10 @@
                 <div id="visualFeedback" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-4xl opacity-0 transition-opacity">✨</div>
             </div>
             
-            <div class="key-hint">
-                <span>กด <span class="key-tag">Shift</span> + <span class="key-tag">Enter</span> เพื่อฟังเสียงสะกดคำ</span>
+            <div class="key-hint mt-4">
+                <span><span class="key-tag">Shift</span> + <span class="key-tag">Enter</span> ฟังเสียงสะกด</span>
+                <span class="mx-2">•</span>
+                <span><span class="key-tag">Ctrl</span> + <span class="key-tag">Enter</span> ดูเฉลยคำ</span>
             </div>
 
             <!-- Progress Bar -->
@@ -342,7 +351,6 @@
         }
 
         // --- Game Logic ---
-        // 10 Words Linear Progression
         const gameWords = [
             {t:"เพื่อน", m:"มิตรภาพคือจุดเริ่มต้นของสันติภาพ"}, 
             {t:"แบ่งปัน", m:"ยิ่งให้ยิ่งได้รับ สังคมน่าอยู่ขึ้น"},
@@ -367,6 +375,13 @@
         let timers = { idle: null, spelling: [] };
         let lastTime = 0;
         const speedBase = 3; 
+
+        // Login Screen Enter Key Logic
+        document.getElementById('playerName').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                startGame();
+            }
+        });
 
         function startGame() {
             state.playerName = document.getElementById('playerName').value.trim() || "ผู้กล้า";
@@ -399,7 +414,6 @@
 
             const currentWordData = gameWords[state.currentWordIndex];
             
-            // Background change based on progress
             const bgIndex = (state.currentWordIndex % 5) + 1;
             document.getElementById('gameScreen').className = `w-full h-screen flex flex-col relative transition-all duration-1000 bg-stage-${bgIndex}`;
             document.getElementById('currentLevelDisplay').innerText = state.currentWordIndex + 1;
@@ -436,7 +450,6 @@
             const dt = timestamp - lastTime;
             lastTime = timestamp;
 
-            // Pause enemy movement if popup is open
             if(state.enemy && !state.isPopupOpen) {
                 if (state.enemy.x > 20) {
                     state.enemy.x -= (speedBase * (dt / 1000));
@@ -452,10 +465,14 @@
         
         inputEl.addEventListener('input', () => soundEngine.typing());
 
-        // Global Keydown for "Enter" behavior
+        // Global Keydown
         document.addEventListener('keydown', (e) => {
             if (e.key === "Enter") {
-                if (state.isPopupOpen) {
+                if (e.ctrlKey && state.isPlaying && !state.isPopupOpen) {
+                    // Ctrl + Enter: Show Hint Popup
+                    e.preventDefault();
+                    showHintPopup();
+                } else if (state.isPopupOpen) {
                     nextWord();
                 } else if (document.activeElement === inputEl) {
                     if (e.shiftKey) {
@@ -468,6 +485,22 @@
                 }
             }
         });
+
+        function showHintPopup() {
+            const popup = document.getElementById('hintPopup');
+            const wordDisplay = document.getElementById('hintWordDisplay');
+            const currentWord = gameWords[state.currentWordIndex].t;
+            
+            wordDisplay.innerText = currentWord;
+            popup.classList.remove('hidden');
+            soundEngine.hint();
+            announce("เฉลยคำคือ " + currentWord);
+
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 3000);
+        }
 
         function triggerSpelling(force = false) {
             clearTimers(); 
@@ -550,7 +583,6 @@
             document.getElementById('contextFeedback').classList.add('hidden');
         }
 
-        // --- New Button Actions ---
         function nextWord() {
             hideContextFeedback();
             if(state.enemy) { state.enemy.el.remove(); state.enemy = null; }
