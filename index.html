@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peace Typer: ห้องเรียนสันติภาพ (AI Edition)</title>
+    <title>Peace Typer: 10 คำสร้างสันติภาพ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -16,12 +16,11 @@
         
         /* Backgrounds */
         .bg-war { background: radial-gradient(circle at center, #2c3e50 0%, #000000 100%); }
-        .bg-peace-1 { background: linear-gradient(135deg, #134E5E 0%, #71B280 100%); }
-        .bg-peace-2 { background: linear-gradient(135deg, #FF8008 0%, #FFC837 100%); }
-        .bg-peace-3 { background: linear-gradient(135deg, #EB3349 0%, #F45C43 100%); }
-        .bg-peace-4 { background: linear-gradient(135deg, #4CB8C4 0%, #3CD3AD 100%); }
-        .bg-peace-5 { background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%); }
-        .bg-ai { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .bg-stage-1 { background: linear-gradient(135deg, #134E5E 0%, #71B280 100%); }
+        .bg-stage-2 { background: linear-gradient(135deg, #FF8008 0%, #FFC837 100%); }
+        .bg-stage-3 { background: linear-gradient(135deg, #EB3349 0%, #F45C43 100%); }
+        .bg-stage-4 { background: linear-gradient(135deg, #4CB8C4 0%, #3CD3AD 100%); }
+        .bg-stage-5 { background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%); }
 
         /* Animations */
         @keyframes float {
@@ -38,14 +37,9 @@
             50% { border-color: #22c55e; box-shadow: 0 0 20px rgba(74, 222, 128, 0.7); }
             100% { border-color: #4ade80; box-shadow: 0 0 0 rgba(74, 222, 128, 0.4); }
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
         .animate-float { animation: float 4s ease-in-out infinite; }
         .pop-in { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .spinner { border-top-color: transparent; animation: spin 1s linear infinite; }
         
         .game-area {
             position: relative;
@@ -93,7 +87,6 @@
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
         
-        /* Tooltip hint */
         .key-hint {
             font-size: 0.75rem;
             color: #94a3b8;
@@ -121,40 +114,17 @@
     <div id="loginScreen" class="w-full max-w-lg p-8 bg-black/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 text-center pop-in relative z-20">
         <div class="mb-4 text-8xl animate-float" aria-hidden="true">🕊️</div>
         <h1 class="text-5xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-emerald-500">Peace Typer</h1>
-        <p class="text-xl mb-8 text-gray-300">ห้องเรียนพิมพ์ดีดสร้างสันติภาพ</p>
+        <p class="text-xl mb-8 text-gray-300">ภารกิจ 10 คำสร้างสันติภาพ</p>
         
-        <div class="mb-6">
+        <div class="mb-8">
             <label for="playerName" class="block text-left text-sm font-bold mb-2 text-emerald-400 ml-2">ชื่อนักเรียน:</label>
             <input type="text" id="playerName" placeholder="พิมพ์ชื่อเล่น..." 
                 class="w-full px-6 py-4 rounded-xl bg-slate-800 border-2 border-slate-600 focus:border-emerald-500 focus:bg-slate-900 focus:outline-none text-2xl text-center text-white transition-all">
         </div>
         
-        <div class="flex flex-col gap-3">
-            <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1 active:scale-95">
-                เริ่มบทเรียนปกติ
-            </button>
-            <button onclick="openAIModal()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-8 rounded-xl text-xl shadow-lg transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
-                <span>✨ สร้างด่านพิเศษ (AI)</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- AI Modal -->
-    <div id="aiModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-slate-800 p-8 rounded-3xl max-w-md w-full border border-purple-500/30 shadow-2xl relative pop-in">
-            <button onclick="closeAIModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-            <div class="text-6xl mb-4 text-center">🤖</div>
-            <h3 class="text-2xl font-bold text-center text-purple-300 mb-2">Gemini Mission Creator</h3>
-            <p class="text-gray-400 text-center mb-6 text-sm">พิมพ์หัวข้อที่คุณสนใจ แล้ว AI จะสร้างคำศัพท์ให้คุณเล่น!</p>
-            
-            <input type="text" id="aiThemeInput" placeholder="เช่น รักษ์โลก, ผลไม้ไทย, ความดี" 
-                class="w-full px-5 py-3 rounded-xl bg-slate-900 border border-slate-600 focus:border-purple-500 text-white mb-4 text-lg">
-            
-            <button onclick="generateAIMission()" id="btnGenerate" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
-                <span id="btnText">🚀 สร้างภารกิจ</span>
-                <div id="aiSpinner" class="hidden w-5 h-5 border-2 border-white rounded-full spinner"></div>
-            </button>
-        </div>
+        <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1 active:scale-95">
+            เริ่มภารกิจ
+        </button>
     </div>
 
     <!-- Screen 2: Game UI -->
@@ -164,17 +134,19 @@
         <div class="absolute top-0 w-full p-4 flex justify-between items-start z-30 bg-gradient-to-b from-black/80 to-transparent pb-8">
             <div class="flex items-center gap-4">
                 <div class="bg-white/10 p-3 rounded-full backdrop-blur-md border border-white/20">
-                    <span id="rankIcon" class="text-2xl">🎖️</span>
+                    <span id="rankIcon" class="text-2xl">🚩</span>
                 </div>
                 <div>
                     <div class="text-yellow-400 font-bold text-xl"><span id="displayPlayerName">Player</span></div>
-                    <div id="rankBadge" class="text-xs font-bold text-gray-300 uppercase tracking-wider bg-black/40 px-2 py-0.5 rounded">อาสาสมัครฝึกหัด</div>
+                    <div class="text-xs font-bold text-gray-300 uppercase tracking-wider bg-black/40 px-2 py-0.5 rounded">
+                        ด่านที่ <span id="currentLevelDisplay">1</span> / 10
+                    </div>
                 </div>
             </div>
             
             <div class="flex flex-col items-end">
-                <div class="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-1">คะแนนสะสม</div>
-                <div class="text-3xl font-mono font-bold text-white drop-shadow-lg" id="score">0</div>
+                <div class="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-1">ความคืบหน้า</div>
+                <div class="text-3xl font-mono font-bold text-white drop-shadow-lg" id="score">0%</div>
             </div>
         </div>
 
@@ -192,10 +164,10 @@
                 <!-- Action Buttons -->
                 <div class="flex flex-col md:flex-row gap-4 justify-center w-full">
                     <button id="btnNext" onclick="nextWord()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-emerald-300 flex items-center justify-center gap-2">
-                        <span>ไปคำถัดไป</span> ➡️
+                        <span>ด่านถัดไป</span> ➡️
                     </button>
                     <button onclick="finishGameEarly()" class="flex-1 bg-slate-600 hover:bg-slate-500 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-slate-300 flex items-center justify-center gap-2">
-                        <span>สิ้นสุดเกม</span> 🏁
+                        <span>จบเกม</span> 🏁
                     </button>
                 </div>
                 <p class="text-gray-400 text-sm mt-4">กด Enter เพื่อไปต่อได้ทันที</p>
@@ -230,8 +202,8 @@
             <!-- Progress Bar -->
             <div class="mt-8 w-full max-w-lg">
                  <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">
-                     <span>ความก้าวหน้าสู่ยศถัดไป</span>
-                     <span id="levelProgressText" class="text-emerald-400">0/40</span>
+                     <span>ระยะทางสู่เส้นชัย</span>
+                     <span id="levelProgressText" class="text-emerald-400">0/10</span>
                  </div>
                  <div class="w-full h-4 bg-black rounded-full overflow-hidden border border-gray-700">
                      <div id="levelProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-500" style="width: 0%"></div>
@@ -242,119 +214,21 @@
 
     <!-- Screen 3: Result -->
     <div id="resultScreen" class="hidden absolute inset-0 bg-black/95 z-50 flex flex-col items-center justify-center text-center p-8 backdrop-blur-sm">
-        <div class="text-9xl mb-6 pop-in">🎓</div>
-        <h2 class="text-5xl md:text-6xl font-black mb-4 text-white">สรุปผลการเรียนรู้</h2>
+        <div class="text-9xl mb-6 pop-in">🏆</div>
+        <h2 class="text-5xl md:text-6xl font-black mb-4 text-white">ภารกิจสำเร็จ!</h2>
         <div class="mb-10">
-            <span class="text-gray-400 block mb-3 text-lg">ยศสูงสุดที่คุณได้รับ</span>
-            <span id="finalRankName" class="text-4xl font-extrabold text-yellow-400 bg-white/10 px-8 py-4 rounded-2xl border border-yellow-400/30">ตำนานแห่งสันติภาพ</span>
+            <span class="text-gray-400 block mb-3 text-lg">คุณได้เรียนรู้คำสำคัญครบ</span>
+            <span class="text-4xl font-extrabold text-yellow-400 bg-white/10 px-8 py-4 rounded-2xl border border-yellow-400/30">10 คำแห่งสันติภาพ</span>
         </div>
         <div class="mb-8 text-emerald-400 text-2xl font-bold">
-            คะแนนรวม: <span id="finalScore">0</span>
+            "คุณคือผู้สร้างการเปลี่ยนแปลง"
         </div>
         <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-12 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1">
-            เริ่มเรียนใหม่
+            เล่นใหม่อีกครั้ง
         </button>
     </div>
 
     <script>
-        // --- Gemini API Setup ---
-        const apiKey = ""; // API Key handled by runtime
-
-        async function generateContent(prompt) {
-            try {
-                const response = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{ text: prompt }]
-                            }],
-                            generationConfig: {
-                                responseMimeType: "application/json" // Force JSON response
-                            }
-                        }),
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`Gemini API Error: ${response.status}`);
-                }
-
-                const data = await response.json();
-                const text = data.candidates[0].content.parts[0].text;
-                return JSON.parse(text);
-            } catch (error) {
-                console.error("Gemini Generation Error:", error);
-                alert("ขออภัย ไม่สามารถสร้างด่าน AI ได้ในขณะนี้ (ระบบจะใช้ด่านปกติแทน)");
-                return null;
-            }
-        }
-
-        // --- AI Modal Logic ---
-        function openAIModal() {
-            document.getElementById('aiModal').classList.remove('hidden');
-        }
-
-        function closeAIModal() {
-            document.getElementById('aiModal').classList.add('hidden');
-        }
-
-        async function generateAIMission() {
-            const theme = document.getElementById('aiThemeInput').value.trim();
-            if (!theme) return alert("กรุณาพิมพ์หัวข้อก่อนครับ");
-
-            // UI Loading State
-            const btn = document.getElementById('btnGenerate');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('aiSpinner');
-            
-            btn.disabled = true;
-            btnText.innerText = "กำลังคิดคำศัพท์...";
-            btn.classList.add('opacity-75');
-            spinner.classList.remove('hidden');
-
-            // Prompt Engineering
-            const prompt = `
-                Generate 5 Thai words related to the theme '${theme}' suitable for grade 4-6 students. 
-                For each word, provide a very short, positive meaning (1 sentence) suitable for children.
-                Return ONLY valid JSON in this format: 
-                [{"t": "word", "m": "meaning"}, {"t": "word", "m": "meaning"}]
-            `;
-
-            const generatedWords = await generateContent(prompt);
-
-            // UI Reset
-            btn.disabled = false;
-            btnText.innerText = "🚀 สร้างภารกิจ";
-            btn.classList.remove('opacity-75');
-            spinner.classList.add('hidden');
-            closeAIModal();
-
-            if (generatedWords && Array.isArray(generatedWords) && generatedWords.length > 0) {
-                // Start game with AI level
-                startAIGame(theme, generatedWords);
-            }
-        }
-
-        function startAIGame(theme, words) {
-            // Override levels with a single custom level
-            const customLevel = {
-                title: `ภารกิจ: ${theme}`,
-                bg: "bg-ai", // Special AI background
-                words: words
-            };
-            
-            // Set global levels to just this one for the session
-            // Note: In a fuller app we might append it, but replacing is simpler here
-            levels.splice(0, levels.length, customLevel);
-            
-            startGame();
-        }
-
         // --- Web Audio API Engine ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
@@ -379,12 +253,10 @@
                 setTimeout(() => soundEngine.playOsc(783.99, 'triangle', 0.4, 0.1), 200); 
             },
             convert: () => {
-                // Magic sound
                 soundEngine.playOsc(1200, 'sine', 0.8, 0.05);
                 soundEngine.playOsc(2000, 'triangle', 0.5, 0.02);
             },
             error: () => {
-                // Buzz
                 soundEngine.playOsc(150, 'sawtooth', 0.3, 0.1);
                 soundEngine.playOsc(100, 'square', 0.3, 0.1);
             },
@@ -470,30 +342,23 @@
         }
 
         // --- Game Logic ---
-        const levels = [
-            { title: "อาสาสมัครฝึกหัด", bg: "bg-war", words: [
-                {t:"เพื่อน", m:"มิตรภาพคือจุดเริ่มต้นของสันติภาพ"}, {t:"ยิ้ม", m:"รอยยิ้มเปลี่ยนศัตรูให้เป็นมิตรได้"}, {t:"ขอโทษ", m:"คำขอโทษดับไฟโกรธในใจได้เสมอ"}, {t:"แบ่งปัน", m:"ยิ่งให้ยิ่งได้รับ สังคมน่าอยู่ขึ้น"}, {t:"รัก", m:"ความรักชนะทุกสิ่ง"}
-            ]},
-            { title: "ผู้พิทักษ์ชุมชน", bg: "bg-peace-1", words: [
-                {t:"สามัคคี", m:"รวมพลังสร้างชุมชนที่เข้มแข็ง"}, {t:"ซื่อสัตย์", m:"ความจริงใจสร้างความไว้ใจ"}, {t:"กติกา", m:"เคารพกฎ อยู่ร่วมกันอย่างสงบ"}, {t:"อดทน", m:"อดทนเพื่อผลลัพธ์ที่ดีกว่า"}, {t:"น้ำใจ", m:"มีน้ำใจ โลกสดใส"}
-            ]},
-            { title: "ทูตแห่งความดี", bg: "bg-peace-2", words: [
-                {t:"ให้อภัย", m:"อภัยทาน คือทานที่ยิ่งใหญ่"}, {t:"เมตตา", m:"เมตตาธรรมค้ำจุนโลก"}, {t:"เคารพ", m:"เคารพความต่าง สร้างสรรค์สังคม"}, {t:"รับฟัง", m:"เปิดใจฟัง ลดความขัดแย้ง"}, {t:"จริงใจ", m:"หน้าต่างหัวใจที่ใสสะอาด"}
-            ]},
-            { title: "วีรบุรุษผู้เสียสละ", bg: "bg-peace-3", words: [
-                {t:"เสียสละ", m:"ทำเพื่อส่วนรวมคือความยิ่งใหญ่"}, {t:"หน้าที่", m:"รู้หน้าที่ พลเมืองดีศรีสังคม"}, {t:"รับผิดชอบ", m:"กล้าทำ กล้ารับ น่านับถือ"}, {t:"คุ้มครอง", m:"ปกป้องผู้อ่อนแอ คือหน้าที่เรา"}, {t:"ยุติธรรม", m:"ความเที่ยงธรรมนำมาซึ่งสันติ"}
-            ]},
-            { title: "ตำนานแห่งสันติภาพ", bg: "bg-peace-5", words: [
-                {t:"จิตอาสา", m:"หัวใจอาสา พัฒนาโลก"}, {t:"ปรองดอง", m:"หันหน้าเข้าหากัน สานสัมพันธ์ยั่งยืน"}, {t:"สันติวิธี", m:"แก้ปัญหาด้วยปัญญา ไม่ใช่กำลัง"}, {t:"พอเพียง", m:"พอใจในสิ่งที่มี ชีวีเป็นสุข"}, {t:"สันติสุข", m:"เป้าหมายสูงสุดของมวลมนุษยชาติ"}
-            ]}
+        // 10 Words Linear Progression
+        const gameWords = [
+            {t:"เพื่อน", m:"มิตรภาพคือจุดเริ่มต้นของสันติภาพ"}, 
+            {t:"แบ่งปัน", m:"ยิ่งให้ยิ่งได้รับ สังคมน่าอยู่ขึ้น"},
+            {t:"สามัคคี", m:"รวมพลังสร้างความเข้มแข็ง"},
+            {t:"ยิ้ม", m:"รอยยิ้มเปลี่ยนศัตรูให้เป็นมิตรได้"},
+            {t:"ขอโทษ", m:"คำขอโทษดับไฟโกรธในใจได้เสมอ"},
+            {t:"ให้อภัย", m:"อภัยทาน คือทานที่ยิ่งใหญ่"},
+            {t:"ซื่อสัตย์", m:"ความจริงใจสร้างความไว้ใจ"},
+            {t:"รับผิดชอบ", m:"กล้าทำ กล้ารับ น่านับถือ"},
+            {t:"ยุติธรรม", m:"ความเที่ยงธรรมนำมาซึ่งสันติ"},
+            {t:"สันติสุข", m:"เป้าหมายสูงสุดของมวลมนุษยชาติ"}
         ];
 
         let state = {
-            levelIdx: 0,
-            score: 0,
-            levelScore: 0,
+            currentWordIndex: 0,
             isPlaying: false,
-            currentWord: null,
             playerName: "",
             enemy: null,
             isPopupOpen: false
@@ -514,31 +379,17 @@
             document.getElementById('gameScreen').setAttribute('aria-hidden', 'false');
 
             resetGame();
-            loadLevel(0);
             
             lastTime = performance.now();
             requestAnimationFrame(gameLoop);
         }
 
         function resetGame() {
-            state.score = 0;
-            state.levelIdx = 0;
+            state.currentWordIndex = 0;
             state.isPlaying = true;
-            document.getElementById('score').innerText = "0";
-        }
-
-        function loadLevel(idx) {
-            state.levelIdx = idx;
-            state.levelScore = 0;
-            const lvl = levels[idx];
-            
-            document.getElementById('gameScreen').className = `w-full h-screen flex flex-col relative transition-all duration-1000 ${lvl.bg}`;
-            document.getElementById('rankBadge').innerText = lvl.title;
-            
             updateProgress();
-            announce(`เข้าสู่ด่านที่ ${idx+1} ${lvl.title}`);
-            soundEngine.levelUp();
             spawnWord();
+            soundEngine.levelUp();
         }
 
         function spawnWord() {
@@ -546,8 +397,12 @@
             clearTimers();
             state.isPopupOpen = false;
 
-            const lvl = levels[state.levelIdx];
-            state.currentWord = lvl.words[Math.floor(Math.random() * lvl.words.length)];
+            const currentWordData = gameWords[state.currentWordIndex];
+            
+            // Background change based on progress
+            const bgIndex = (state.currentWordIndex % 5) + 1;
+            document.getElementById('gameScreen').className = `w-full h-screen flex flex-col relative transition-all duration-1000 bg-stage-${bgIndex}`;
+            document.getElementById('currentLevelDisplay').innerText = state.currentWordIndex + 1;
 
             if(state.enemy) state.enemy.el.remove();
             
@@ -561,7 +416,7 @@
             state.enemy = { el: el, x: 100 };
 
             const targetEl = document.getElementById('targetWord');
-            targetEl.innerText = state.currentWord.t;
+            targetEl.innerText = currentWordData.t;
             targetEl.classList.remove("text-emerald-400", "scale-110");
             targetEl.classList.add("text-white");
             
@@ -572,7 +427,7 @@
             input.classList.remove("border-red-500", "border-emerald-500");
             input.classList.add("border-slate-600");
 
-            announce("พิมพ์คำว่า " + state.currentWord.t);
+            announce(`ด่านที่ ${state.currentWordIndex + 1} พิมพ์คำว่า ` + currentWordData.t);
             startIdleTimer();
         }
 
@@ -601,10 +456,8 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === "Enter") {
                 if (state.isPopupOpen) {
-                    // If popup is open, Enter triggers "Next Word"
                     nextWord();
                 } else if (document.activeElement === inputEl) {
-                    // If typing, Enter triggers submit or spell
                     if (e.shiftKey) {
                         e.preventDefault();
                         triggerSpelling(true);
@@ -621,7 +474,7 @@
             soundEngine.hint();
             announce("จะสะกดให้ฟัง");
             
-            const word = state.currentWord.t;
+            const word = gameWords[state.currentWordIndex].t;
             let delay = 1000;
 
             for(let char of word) {
@@ -636,10 +489,11 @@
         }
 
         function checkSubmission() {
-            if(!state.currentWord || state.isPopupOpen) return;
+            if(state.isPopupOpen) return;
             const val = inputEl.value.trim();
+            const currentWordData = gameWords[state.currentWordIndex];
 
-            if (val === state.currentWord.t) {
+            if (val === currentWordData.t) {
                 handleSuccess();
             } else {
                 handleError();
@@ -664,12 +518,9 @@
             soundEngine.correct();
             soundEngine.convert();
             
-            state.score += 10;
-            state.levelScore += 10;
-            state.isPopupOpen = true; // Mark popup as open
+            state.isPopupOpen = true; 
             
             // Visuals
-            document.getElementById('score').innerText = state.score;
             document.getElementById('targetWord').classList.add("text-emerald-400", "scale-110");
             inputEl.classList.replace("border-slate-600", "border-emerald-500");
             inputEl.disabled = true;
@@ -681,11 +532,8 @@
             const rect = inputEl.getBoundingClientRect();
             spawnParticles(rect.left + rect.width/2, rect.top);
 
-            // Show Feedback Popup with Buttons
-            showContextFeedback(state.currentWord);
+            showContextFeedback(gameWords[state.currentWordIndex]);
             updateProgress();
-
-            // Note: No automatic timeout here, waiting for user action
         }
 
         function showContextFeedback(word) {
@@ -695,7 +543,6 @@
             fb.classList.remove('hidden');
             
             speak(word.m);
-            // Focus next button for accessibility
             setTimeout(() => document.getElementById('btnNext').focus(), 100);
         }
 
@@ -708,9 +555,10 @@
             hideContextFeedback();
             if(state.enemy) { state.enemy.el.remove(); state.enemy = null; }
 
-            if(state.levelScore >= 40) {
-                if(state.levelIdx < levels.length - 1) loadLevel(state.levelIdx + 1);
-                else showWinScreen();
+            state.currentWordIndex++;
+
+            if(state.currentWordIndex >= gameWords.length) {
+                showWinScreen();
             } else {
                 spawnWord();
             }
@@ -722,9 +570,11 @@
         }
 
         function updateProgress() {
-            const pct = (state.levelScore / 40) * 100;
+            const current = state.isPopupOpen ? state.currentWordIndex + 1 : state.currentWordIndex;
+            const pct = (current / 10) * 100;
             document.getElementById('levelProgressBar').style.width = pct + "%";
-            document.getElementById('levelProgressText').innerText = `${state.levelScore}/40`;
+            document.getElementById('levelProgressText').innerText = `${current}/10`;
+            document.getElementById('score').innerText = `${Math.round(pct)}%`;
         }
 
         function startIdleTimer() {
@@ -743,10 +593,6 @@
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
             document.getElementById('resultScreen').classList.add('flex');
-            
-            const rank = levels[state.levelIdx].title;
-            document.getElementById('finalRankName').innerText = rank;
-            document.getElementById('finalScore').innerText = state.score;
             soundEngine.levelUp();
         }
     </script>
