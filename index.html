@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peace Typer: ภารกิจพิทักษ์โลก</title>
+    <title>Peace Typer: ห้องเรียนสันติภาพ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -14,48 +14,33 @@
             user-select: none;
         }
         
-        /* Dynamic Backgrounds */
-        .bg-war { background: radial-gradient(circle at center, #4a1c1c 0%, #1a0505 100%); }
-        .bg-peace-1 { background: linear-gradient(135deg, #5D4157 0%, #A8CABA 100%); }
-        .bg-peace-2 { background: linear-gradient(135deg, #F0C27B 0%, #4B1248 100%); }
-        .bg-peace-3 { background: linear-gradient(135deg, #DD5E89 0%, #F7BB97 100%); }
-        .bg-peace-4 { background: linear-gradient(135deg, #3494E6 0%, #EC6EAD 100%); }
+        /* Backgrounds */
+        .bg-war { background: radial-gradient(circle at center, #2c3e50 0%, #000000 100%); }
+        .bg-peace-1 { background: linear-gradient(135deg, #134E5E 0%, #71B280 100%); }
+        .bg-peace-2 { background: linear-gradient(135deg, #FF8008 0%, #FFC837 100%); }
+        .bg-peace-3 { background: linear-gradient(135deg, #EB3349 0%, #F45C43 100%); }
+        .bg-peace-4 { background: linear-gradient(135deg, #4CB8C4 0%, #3CD3AD 100%); }
         .bg-peace-5 { background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%); }
 
-        /* Keyframe Animations */
+        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            70% { box-shadow: 0 0 20px 20px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
         @keyframes popIn {
             0% { transform: scale(0); opacity: 0; }
-            60% { transform: scale(1.2); opacity: 1; }
+            60% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); opacity: 1; }
         }
+        @keyframes pulse-border {
+            0% { border-color: #4ade80; box-shadow: 0 0 0 rgba(74, 222, 128, 0.4); }
+            50% { border-color: #22c55e; box-shadow: 0 0 20px rgba(74, 222, 128, 0.7); }
+            100% { border-color: #4ade80; box-shadow: 0 0 0 rgba(74, 222, 128, 0.4); }
+        }
 
-        .animate-shake { animation: shake 0.5s; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .pop-in { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-
-        /* Game Elements */
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .pop-in { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
         .game-area {
             position: relative;
             height: 55vh;
@@ -63,60 +48,61 @@
             overflow: hidden;
             border-bottom: 6px solid #4ade80;
             background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-size: 30px 30px;
         }
 
         .enemy {
             position: absolute;
             bottom: 25px;
-            font-size: 4rem;
+            font-size: 5rem;
             filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
-            transition: left 0.1s linear, transform 0.2s;
-            will-change: left, transform;
+            transition: left 0.1s linear;
+            will-change: left;
             z-index: 10;
         }
 
         .converted {
             transition: all 1s ease-out;
             opacity: 0;
-            transform: translateY(-100px) scale(1.5) rotate(360deg);
+            transform: translateY(-150px) scale(1.5) rotate(360deg);
             filter: drop-shadow(0 0 20px gold);
         }
 
-        /* Particles */
         .particle {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             pointer-events: none;
             z-index: 20;
         }
 
         .input-glow:focus {
-            box-shadow: 0 0 25px #4ade80, inset 0 0 10px rgba(0,0,0,0.5);
-            border-color: #22c55e;
-            transform: scale(1.02);
-        }
-
-        /* Retro Scanlines */
-        .scanlines {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-            background-size: 100% 4px;
-            position: absolute; inset: 0; pointer-events: none; z-index: 50;
-        }
-        
-        /* Custom UI */
-        .rank-badge {
-            background: linear-gradient(45deg, #FFD700, #FDB931);
-            border: 3px solid #FFF;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: pulse-border 2s infinite;
+            outline: none;
         }
 
         .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+        }
+        
+        /* Tooltip hint */
+        .key-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .key-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: monospace;
+            color: #fbbf24;
         }
     </style>
 </head>
@@ -126,204 +112,157 @@
     <div id="srAnnouncer" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
 
     <!-- Screen 1: Login -->
-    <div id="loginScreen" class="w-full max-w-lg p-8 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/20 text-center pop-in relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-blue-500/20 animate-pulse"></div>
-        <div class="relative z-10">
-            <div class="mb-4 text-7xl animate-float filter drop-shadow-lg" aria-hidden="true">🕊️</div>
-            <h1 class="text-5xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 drop-shadow-sm">Peace Typer</h1>
-            <p class="text-xl mb-8 text-blue-100 font-light">ภารกิจเปลี่ยนสงครามให้เป็นสันติภาพ</p>
-            
-            <div class="mb-8 group">
-                <label for="playerName" class="block text-left text-sm font-bold mb-2 text-yellow-300 ml-2">ชื่อฮีโร่ของคุณ:</label>
-                <input type="text" id="playerName" placeholder="พิมพ์ชื่อเล่น..." 
-                    class="w-full px-6 py-4 rounded-xl bg-slate-800/80 border-2 border-slate-600 focus:border-yellow-400 focus:bg-slate-800 focus:outline-none text-2xl text-center text-white transition-all shadow-inner group-hover:border-slate-400">
-            </div>
-            
-            <button onclick="startGame()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform hover:-translate-y-1 transition-all active:scale-95 border-b-4 border-green-800">
-                🚀 เริ่มภารกิจทันที
-            </button>
-            <p class="mt-6 text-sm text-gray-400 flex justify-center items-center gap-2">
-                <span>🎮 สำหรับ ป.4 - ป.6</span> • <span>🔊 เปิดเสียงเพื่อความสนุก</span>
-            </p>
+    <div id="loginScreen" class="w-full max-w-lg p-8 bg-black/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 text-center pop-in relative">
+        <div class="mb-4 text-8xl animate-float" aria-hidden="true">🕊️</div>
+        <h1 class="text-5xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-emerald-500">Peace Typer</h1>
+        <p class="text-xl mb-8 text-gray-300">ห้องเรียนพิมพ์ดีดสร้างสันติภาพ</p>
+        
+        <div class="mb-8">
+            <label for="playerName" class="block text-left text-sm font-bold mb-2 text-emerald-400 ml-2">ชื่อนักเรียน:</label>
+            <input type="text" id="playerName" placeholder="พิมพ์ชื่อเล่น..." 
+                class="w-full px-6 py-4 rounded-xl bg-slate-800 border-2 border-slate-600 focus:border-emerald-500 focus:bg-slate-900 focus:outline-none text-2xl text-center text-white transition-all">
         </div>
+        
+        <button onclick="startGame()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-8 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1 active:scale-95">
+            เริ่มบทเรียน
+        </button>
     </div>
 
     <!-- Screen 2: Game UI -->
     <div id="gameScreen" class="hidden w-full h-screen flex flex-col relative bg-war transition-all duration-1000" aria-hidden="true">
-        <div class="scanlines"></div>
         
         <!-- Top HUD -->
-        <div class="absolute top-0 w-full p-4 flex justify-between items-start z-30 bg-gradient-to-b from-black/90 via-black/50 to-transparent pb-12">
-            <div class="flex flex-col gap-1">
-                <div class="flex items-center gap-3">
-                    <div id="rankIcon" class="text-3xl">🎖️</div>
-                    <div class="flex flex-col">
-                        <div class="text-yellow-400 font-bold text-xl drop-shadow-md"><span id="displayPlayerName">Player</span></div>
-                        <div id="rankBadge" class="rank-badge px-3 py-1 rounded-full text-xs font-black text-amber-900 uppercase tracking-wider w-fit">
-                            อาสาสมัครฝึกหัด
-                        </div>
-                    </div>
+        <div class="absolute top-0 w-full p-4 flex justify-between items-start z-30 bg-gradient-to-b from-black/80 to-transparent pb-8">
+            <div class="flex items-center gap-4">
+                <div class="bg-white/10 p-3 rounded-full backdrop-blur-md border border-white/20">
+                    <span id="rankIcon" class="text-2xl">🎖️</span>
                 </div>
-                <div class="text-white font-mono mt-2 bg-black/40 px-3 py-1 rounded-lg border border-white/10 w-fit backdrop-blur-sm">
-                    SCORE: <span id="score" class="text-green-400 text-2xl font-bold">0</span>
+                <div>
+                    <div class="text-yellow-400 font-bold text-xl"><span id="displayPlayerName">Player</span></div>
+                    <div id="rankBadge" class="text-xs font-bold text-gray-300 uppercase tracking-wider bg-black/40 px-2 py-0.5 rounded">อาสาสมัครฝึกหัด</div>
                 </div>
             </div>
             
-            <div class="text-right">
-                <div class="text-red-400 font-bold text-sm uppercase tracking-widest mb-1 flex items-center justify-end gap-2">
-                    <span class="animate-pulse">⚠️ Warning Level</span>
-                </div>
-                <div class="w-48 h-6 bg-gray-900/80 rounded-full overflow-hidden border-2 border-gray-600 relative shadow-inner">
-                    <div id="dangerBar" class="h-full bg-gradient-to-r from-red-600 to-orange-600 transition-all duration-300 relative" style="width: 0%">
-                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiLz4KPC9zdmc+')] opacity-30"></div>
-                    </div>
-                </div>
+            <div class="flex flex-col items-end">
+                <div class="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-1">คะแนนสะสม</div>
+                <div class="text-3xl font-mono font-bold text-white drop-shadow-lg" id="score">0</div>
             </div>
         </div>
 
         <!-- Game Area -->
-        <div id="gameArea" class="game-area flex-grow relative flex items-end overflow-hidden">
-            <div class="absolute bottom-5 left-5 text-7xl z-20 filter drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] transform -scale-x-100">🏰</div>
-            <div class="absolute bottom-2 left-28 text-xs text-white/70 bg-black/50 px-3 py-1 rounded-full border border-white/20 backdrop-blur-sm">ฐานที่มั่นสุดท้าย</div>
+        <div id="gameArea" class="game-area flex-grow relative flex items-end">
+            <div class="absolute bottom-5 left-5 text-7xl z-20 filter drop-shadow-xl transform -scale-x-100">🏰</div>
+            <div class="absolute bottom-2 left-28 text-xs text-white/50 bg-black/30 px-3 py-1 rounded-full">เขตปลอดภัย</div>
             
             <!-- Feedback Popup -->
-            <div id="contextFeedback" class="hidden absolute top-1/3 left-1/2 transform -translate-x-1/2 bg-white/95 text-slate-900 px-8 py-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-40 max-w-xl text-center border-l-8 border-green-500 pop-in ring-4 ring-white/30" role="alert" aria-live="assertive">
-                <div class="text-5xl mb-3 animate-bounce">💡</div>
-                <h3 id="feedbackWord" class="font-bold text-3xl text-green-700 mb-2">คำศัพท์</h3>
-                <p id="feedbackDesc" class="text-xl text-slate-700 leading-relaxed font-medium">คำอธิบาย...</p>
-                <div class="mt-4 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
-                    <div class="h-full bg-green-500 animate-[width_8s_linear_forwards]" style="width: 100%"></div>
+            <div id="contextFeedback" class="hidden absolute top-1/3 left-1/2 transform -translate-x-1/2 bg-white/95 text-slate-900 px-8 py-8 rounded-2xl shadow-2xl z-50 max-w-2xl w-full text-center border-t-8 border-emerald-500 pop-in ring-8 ring-black/20" role="alert" aria-live="assertive">
+                <div class="text-6xl mb-4 animate-bounce">💡</div>
+                <h3 id="feedbackWord" class="font-bold text-4xl text-emerald-700 mb-3">คำศัพท์</h3>
+                <p id="feedbackDesc" class="text-2xl text-slate-700 leading-relaxed font-medium">คำอธิบาย...</p>
+                <div class="mt-6 flex justify-center">
+                    <div class="bg-gray-100 px-4 py-2 rounded-lg text-gray-500 text-sm animate-pulse">กำลังไปยังคำถัดไป...</div>
+                </div>
+                <div class="mt-4 h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-emerald-500 animate-[width_8s_linear_forwards]" style="width: 100%"></div>
                 </div>
             </div>
         </div>
 
         <!-- Bottom Interface -->
-        <div class="relative bg-slate-900/90 border-t-4 border-yellow-500 p-6 flex flex-col items-center justify-center z-30 shadow-[0_-20px_40px_rgba(0,0,0,0.6)] backdrop-blur-lg">
+        <div class="relative bg-slate-900 border-t-4 border-emerald-500 p-8 flex flex-col items-center justify-center z-30 shadow-2xl">
             
             <!-- Target Word -->
-            <div class="mb-6 relative w-full text-center group">
-                <div id="targetWord" class="text-5xl md:text-7xl font-extrabold text-white tracking-widest drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] transition-all duration-300" aria-live="polite">
-                    Loading...
+            <div class="mb-6 w-full text-center">
+                <div id="targetWord" class="text-6xl md:text-8xl font-extrabold text-white tracking-wider drop-shadow-md transition-all duration-300" aria-live="polite">
+                    ...
                 </div>
-                <div class="text-sm text-center text-blue-300 mt-2 font-mono opacity-70 group-hover:opacity-100 transition-opacity">
-                    [ พิมพ์คำศัพท์ด้านบนเพื่อยิงลำแสงสันติภาพ ]
+                <div class="text-lg text-blue-200 mt-2 font-light opacity-80">
+                    พิมพ์ให้ถูกต้องแล้วกด <span class="font-bold text-yellow-400 border border-yellow-400/50 px-2 rounded bg-yellow-400/10">Enter</span>
                 </div>
             </div>
 
             <!-- Input Box -->
-            <div class="w-full max-w-2xl relative">
+            <div class="w-full max-w-3xl relative group">
                 <input type="text" id="wordInput" autocomplete="off" 
-                    class="w-full bg-slate-800 text-white text-3xl px-8 py-4 rounded-full border-4 border-slate-600 text-center input-glow focus:outline-none placeholder-gray-600 transition-all font-bold tracking-wide"
-                    placeholder="พิมพ์ที่นี่..." disabled aria-label="พิมพ์คำศัพท์เพื่อรักษาสันติภาพ">
-                <div id="visualFeedback" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-3xl opacity-0 transition-opacity">✨</div>
+                    class="w-full bg-slate-800 text-white text-4xl px-8 py-5 rounded-2xl border-4 border-slate-600 text-center input-glow placeholder-gray-600 transition-all font-bold tracking-wide shadow-inner"
+                    placeholder="พิมพ์คำตอบที่นี่..." disabled aria-label="ช่องพิมพ์คำตอบ">
+                <div id="visualFeedback" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-4xl opacity-0 transition-opacity">✨</div>
             </div>
             
-            <!-- Level Progress -->
-            <div class="mt-6 w-full max-w-md">
-                 <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider" aria-hidden="true">
-                     <span>Next Rank Progress</span>
-                     <span id="levelProgressText" class="text-yellow-400">0/40</span>
+            <div class="key-hint">
+                <span>กด <span class="key-tag">Shift</span> + <span class="key-tag">Enter</span> เพื่อฟังเสียงสะกดคำ</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mt-8 w-full max-w-lg">
+                 <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">
+                     <span>ความก้าวหน้าสู่ยศถัดไป</span>
+                     <span id="levelProgressText" class="text-emerald-400">0/40</span>
                  </div>
-                 <div class="w-full h-3 bg-black rounded-full overflow-hidden border border-gray-700 box-shadow-inner">
-                     <div id="levelProgressBar" class="h-full bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 bg-[length:200%_100%] animate-[gradient_2s_linear_infinite] transition-all duration-500" style="width: 0%"></div>
+                 <div class="w-full h-4 bg-black rounded-full overflow-hidden border border-gray-700">
+                     <div id="levelProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-500" style="width: 0%"></div>
                  </div>
             </div>
         </div>
     </div>
 
     <!-- Screen 3: Result -->
-    <div id="resultScreen" class="hidden absolute inset-0 bg-black/95 z-50 flex flex-col items-center justify-center text-center p-8 backdrop-blur-sm" role="dialog" aria-modal="true">
-        <div id="resultEmoji" class="text-9xl mb-6 pop-in filter drop-shadow-[0_0_30px_rgba(255,215,0,0.5)]" aria-hidden="true">🏆</div>
-        <h2 id="resultTitle" class="text-5xl md:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">MISSION COMPLETE</h2>
-        <div class="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <span class="text-gray-400 block mb-3 text-sm uppercase tracking-widest">Final Rank Achieved</span>
-            <span id="finalRankName" class="text-3xl md:text-4xl font-extrabold text-yellow-400 bg-white/5 px-8 py-4 rounded-2xl border-2 border-yellow-400/50 shadow-[0_0_20px_rgba(255,215,0,0.2)]">ตำนานแห่งสันติภาพ</span>
+    <div id="resultScreen" class="hidden absolute inset-0 bg-black/95 z-50 flex flex-col items-center justify-center text-center p-8 backdrop-blur-sm">
+        <div class="text-9xl mb-6 pop-in">🎓</div>
+        <h2 class="text-5xl md:text-6xl font-black mb-4 text-white">บทเรียนสำเร็จ!</h2>
+        <div class="mb-10">
+            <span class="text-gray-400 block mb-3 text-lg">ยศสูงสุดที่คุณได้รับ</span>
+            <span id="finalRankName" class="text-4xl font-extrabold text-yellow-400 bg-white/10 px-8 py-4 rounded-2xl border border-yellow-400/30">ตำนานแห่งสันติภาพ</span>
         </div>
-        <p id="resultMessage" class="text-xl text-gray-300 mb-10 max-w-2xl font-light">คุณคือความหวังของโลกใบนี้</p>
-        <button onclick="location.reload()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-10 rounded-full text-xl shadow-[0_10px_30px_rgba(59,130,246,0.4)] transition-all transform hover:-translate-y-1 active:scale-95 border-b-4 border-blue-900">
-            ↺ เล่นใหม่อีกครั้ง
+        <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-12 rounded-xl text-2xl shadow-lg transition-all transform hover:-translate-y-1">
+            เริ่มเรียนใหม่
         </button>
     </div>
 
     <script>
-        // --- Enhanced Audio Engine (Web Audio API) ---
+        // --- Web Audio API Engine ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         const soundEngine = {
-            playOsc: (freq, type, duration, vol = 0.1, slideTo = null) => {
+            playOsc: (freq, type, duration, vol = 0.1) => {
                 if(audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = type;
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                if (slideTo) {
-                    osc.frequency.exponentialRampToValueAtTime(slideTo, audioCtx.currentTime + duration);
-                }
-                
                 gain.gain.setValueAtTime(vol, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + duration);
             },
-            playNoise: (duration) => {
-                const bufferSize = audioCtx.sampleRate * duration;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-                const noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
-                const gain = audioCtx.createGain();
-                
-                // Lowpass filter for explosion thud
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 1000;
-
-                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                
-                noise.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioCtx.destination);
-                noise.start();
-            },
-            // Specific Sounds
-            typing: () => soundEngine.playOsc(800 + Math.random()*200, 'sine', 0.05, 0.05), // Light blip
+            typing: () => soundEngine.playOsc(600 + Math.random()*200, 'sine', 0.05, 0.03),
             correct: () => {
-                // Happy chord
-                soundEngine.playOsc(523.25, 'sine', 0.2, 0.1); // C
-                setTimeout(() => soundEngine.playOsc(659.25, 'sine', 0.2, 0.1), 50); // E
-                setTimeout(() => soundEngine.playOsc(783.99, 'triangle', 0.4, 0.1), 100); // G (punchy)
+                soundEngine.playOsc(523.25, 'sine', 0.2, 0.1); 
+                setTimeout(() => soundEngine.playOsc(659.25, 'sine', 0.2, 0.1), 100); 
+                setTimeout(() => soundEngine.playOsc(783.99, 'triangle', 0.4, 0.1), 200); 
             },
             convert: () => {
-                // Magical shimmering sound
-                soundEngine.playOsc(1200, 'sine', 0.5, 0.1, 2000); 
-                soundEngine.playOsc(800, 'triangle', 0.5, 0.05, 1500);
+                // Magic sound
+                soundEngine.playOsc(1200, 'sine', 0.8, 0.05);
+                soundEngine.playOsc(2000, 'triangle', 0.5, 0.02);
             },
-            explosion: () => {
-                soundEngine.playNoise(0.5);
-                soundEngine.playOsc(100, 'sawtooth', 0.4, 0.2, 10); // Downward slide bass
+            error: () => {
+                // Buzz
+                soundEngine.playOsc(150, 'sawtooth', 0.3, 0.1);
+                soundEngine.playOsc(100, 'square', 0.3, 0.1);
             },
-            error: () => soundEngine.playOsc(150, 'sawtooth', 0.2, 0.15, 100),
             levelUp: () => {
-                // Fanfare
-                const now = audioCtx.currentTime;
-                [523, 659, 784, 1046, 784, 1046].forEach((f, i) => {
-                    setTimeout(() => soundEngine.playOsc(f, 'square', 0.2, 0.1), i * 120);
-                });
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => soundEngine.playOsc(f, 'square', 0.4, 0.1), i*150));
             },
-            bell: () => {
-                soundEngine.playOsc(880, 'sine', 1.5, 0.2); // Ding!
-                soundEngine.playOsc(1760, 'sine', 1.0, 0.05); // Harmonic
+            hint: () => {
+                soundEngine.playOsc(880, 'sine', 0.1, 0.1);
+                setTimeout(() => soundEngine.playOsc(1760, 'sine', 0.3, 0.05), 100);
             }
         };
 
-        // --- Thai Character Mapping for Spelling ---
+        // --- Thai Character Mapping ---
         const THAI_CHAR_NAMES = {
             'ก': 'กอ ไก่', 'ข': 'ขอ ไข่', 'ฃ': 'ขอ ขวด', 'ค': 'คอ ควาย', 'ฅ': 'คอ คน',
             'ฆ': 'ฆอ ระฆัง', 'ง': 'งอ งู', 'จ': 'จอ จาน', 'ฉ': 'ฉอ ฉิ่ง', 'ช': 'ชอ ช้าง',
@@ -334,55 +273,43 @@
             'ฟ': 'ฟอ ฟัน', 'ภ': 'ภอ สำเภา', 'ม': 'มอ ม้า', 'ย': 'ยอ ยักษ์', 'ร': 'รอ เรือ',
             'ล': 'ลอ ลิง', 'ว': 'วอ แหวน', 'ศ': 'สอ ศาลา', 'ษ': 'สอ ฤาษี', 'ส': 'สอ เสือ',
             'ห': 'หอ หีบ', 'ฬ': 'ลอ จุฬา', 'อ': 'ออ อ่าง', 'ฮ': 'ฮอ นกฮูก',
-            // Vowels & Tones
             'ะ': 'สระ อะ', 'ั': 'ไม้หันอากาศ', 'า': 'สระ อา', 'ำ': 'สระ อำ',
             'ิ': 'สระ อิ', 'ี': 'สระ อี', 'ึ': 'สระ อึ', 'ื': 'สระ อือ',
             'ุ': 'สระ อุ', 'ู': 'สระ อู', 'เ': 'สระ เอ', 'แ': 'สระ แอ',
             'โ': 'สระ โอ', 'ใ': 'สระ ใอ ไม้ม้วน', 'ไ': 'สระ ไอ ไม้มลาย',
             '่': 'ไม้ เอก', '้': 'ไม้ โท', '๊': 'ไม้ ตรี', '๋': 'ไม้ จัตวา',
-            '์': 'ไม้ ทันตะฆาต',
-            ' ': 'เว้นวรรค'
+            '์': 'ไม้ ทันตะฆาต', ' ': 'เว้นวรรค'
         };
 
-        function getCharName(char) {
-            return THAI_CHAR_NAMES[char] || char;
-        }
+        function getCharName(char) { return THAI_CHAR_NAMES[char] || char; }
 
-        // --- Visual Particle System ---
-        function spawnParticles(x, y, type = 'success') {
-            const colors = type === 'success' 
-                ? ['#FFD700', '#FFF', '#4ADE80', '#F472B6'] 
-                : ['#EF4444', '#7F1D1D', '#FFA500'];
-            
-            for(let i=0; i<20; i++) {
+        // --- Visual Particles ---
+        function spawnParticles(x, y) {
+            const colors = ['#34D399', '#FBBF24', '#ffffff', '#60A5FA'];
+            for(let i=0; i<30; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
                 p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 p.style.left = x + 'px';
                 p.style.top = y + 'px';
                 
-                // Random velocity
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = 2 + Math.random() * 6;
+                const velocity = 3 + Math.random() * 5;
                 const vx = Math.cos(angle) * velocity;
                 const vy = Math.sin(angle) * velocity;
                 
                 document.body.appendChild(p);
 
-                // Animate
-                let posX = x, posY = y;
-                let life = 1.0;
-
+                let posX = x, posY = y, life = 1.0;
                 function update() {
                     life -= 0.02;
                     posX += vx;
                     posY += vy;
-                    
+                    vy += 0.2; // gravity
                     p.style.left = posX + 'px';
                     p.style.top = posY + 'px';
                     p.style.opacity = life;
                     p.style.transform = `scale(${life})`;
-
                     if(life > 0) requestAnimationFrame(update);
                     else p.remove();
                 }
@@ -390,7 +317,7 @@
             }
         }
 
-        // --- Accessibility Helpers ---
+        // --- Accessibility ---
         function announce(text) {
             const el = document.getElementById('srAnnouncer');
             el.innerText = text;
@@ -399,63 +326,57 @@
 
         function speak(text) {
             if ('speechSynthesis' in window) {
-                // Do not cancel here to allow queueing in sequence if needed, 
-                // but for our timeout logic, we control the timing manually.
-                window.speechSynthesis.cancel(); 
+                // Cancel previous speech immediately for responsiveness
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'th-TH';
-                utterance.rate = 0.8; // Slower for clarity
+                utterance.rate = 0.8; 
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // --- Game Data ---
+        // --- Game Logic ---
         const levels = [
             { title: "อาสาสมัครฝึกหัด", bg: "bg-war", words: [
                 {t:"เพื่อน", m:"มิตรภาพคือจุดเริ่มต้นของสันติภาพ"}, {t:"ยิ้ม", m:"รอยยิ้มเปลี่ยนศัตรูให้เป็นมิตรได้"}, {t:"ขอโทษ", m:"คำขอโทษดับไฟโกรธในใจได้เสมอ"}, {t:"แบ่งปัน", m:"ยิ่งให้ยิ่งได้รับ สังคมน่าอยู่ขึ้น"}, {t:"รัก", m:"ความรักชนะทุกสิ่ง"}
-            ], speed: 0.6 },
+            ]},
             { title: "ผู้พิทักษ์ชุมชน", bg: "bg-peace-1", words: [
                 {t:"สามัคคี", m:"รวมพลังสร้างชุมชนที่เข้มแข็ง"}, {t:"ซื่อสัตย์", m:"ความจริงใจสร้างความไว้ใจ"}, {t:"กติกา", m:"เคารพกฎ อยู่ร่วมกันอย่างสงบ"}, {t:"อดทน", m:"อดทนเพื่อผลลัพธ์ที่ดีกว่า"}, {t:"น้ำใจ", m:"มีน้ำใจ โลกสดใส"}
-            ], speed: 0.8 },
+            ]},
             { title: "ทูตแห่งความดี", bg: "bg-peace-2", words: [
                 {t:"ให้อภัย", m:"อภัยทาน คือทานที่ยิ่งใหญ่"}, {t:"เมตตา", m:"เมตตาธรรมค้ำจุนโลก"}, {t:"เคารพ", m:"เคารพความต่าง สร้างสรรค์สังคม"}, {t:"รับฟัง", m:"เปิดใจฟัง ลดความขัดแย้ง"}, {t:"จริงใจ", m:"หน้าต่างหัวใจที่ใสสะอาด"}
-            ], speed: 1.0 },
+            ]},
             { title: "วีรบุรุษผู้เสียสละ", bg: "bg-peace-3", words: [
                 {t:"เสียสละ", m:"ทำเพื่อส่วนรวมคือความยิ่งใหญ่"}, {t:"หน้าที่", m:"รู้หน้าที่ พลเมืองดีศรีสังคม"}, {t:"รับผิดชอบ", m:"กล้าทำ กล้ารับ น่านับถือ"}, {t:"คุ้มครอง", m:"ปกป้องผู้อ่อนแอ คือหน้าที่เรา"}, {t:"ยุติธรรม", m:"ความเที่ยงธรรมนำมาซึ่งสันติ"}
-            ], speed: 1.2 },
+            ]},
             { title: "ตำนานแห่งสันติภาพ", bg: "bg-peace-5", words: [
                 {t:"จิตอาสา", m:"หัวใจอาสา พัฒนาโลก"}, {t:"ปรองดอง", m:"หันหน้าเข้าหากัน สานสัมพันธ์ยั่งยืน"}, {t:"สันติวิธี", m:"แก้ปัญหาด้วยปัญญา ไม่ใช่กำลัง"}, {t:"พอเพียง", m:"พอใจในสิ่งที่มี ชีวีเป็นสุข"}, {t:"สันติสุข", m:"เป้าหมายสูงสุดของมวลมนุษยชาติ"}
-            ], speed: 1.5 }
+            ]}
         ];
 
-        // --- Game State ---
         let state = {
             levelIdx: 0,
             score: 0,
             levelScore: 0,
-            danger: 0,
             isPlaying: false,
             currentWord: null,
             playerName: "",
-            enemy: null // { el, x, speed }
+            enemy: null
         };
-        
+
         let timers = { idle: null, spelling: [] };
         let lastTime = 0;
+        const speedBase = 3; // Slow speed for infinite mode
 
-        // --- Core Functions ---
         function startGame() {
-            const input = document.getElementById('playerName');
-            state.playerName = input.value.trim() || "ผู้กล้า";
-            
+            state.playerName = document.getElementById('playerName').value.trim() || "ผู้กล้า";
             document.getElementById('displayPlayerName').innerText = state.playerName;
             if(audioCtx.state === 'suspended') audioCtx.resume();
 
             document.getElementById('loginScreen').style.display = 'none';
-            const gameScreen = document.getElementById('gameScreen');
-            gameScreen.classList.remove('hidden');
-            gameScreen.classList.add('flex');
-            gameScreen.setAttribute('aria-hidden', 'false');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.add('flex');
+            document.getElementById('gameScreen').setAttribute('aria-hidden', 'false');
 
             resetGame();
             loadLevel(0);
@@ -466,11 +387,9 @@
 
         function resetGame() {
             state.score = 0;
-            state.danger = 0;
             state.levelIdx = 0;
             state.isPlaying = true;
             document.getElementById('score').innerText = "0";
-            document.getElementById('dangerBar').style.width = "0%";
         }
 
         function loadLevel(idx) {
@@ -478,18 +397,12 @@
             state.levelScore = 0;
             const lvl = levels[idx];
             
-            // Visual Update
-            const gs = document.getElementById('gameScreen');
-            gs.className = `w-full h-screen flex flex-col relative transition-all duration-1000 ${lvl.bg}`;
+            document.getElementById('gameScreen').className = `w-full h-screen flex flex-col relative transition-all duration-1000 ${lvl.bg}`;
             document.getElementById('rankBadge').innerText = lvl.title;
             
             updateProgress();
-            
-            // Feedback
             announce(`เข้าสู่ด่านที่ ${idx+1} ${lvl.title}`);
-            showFloatingText(`LEVEL ${idx+1}`, window.innerWidth/2, window.innerHeight/3);
             soundEngine.levelUp();
-
             spawnWord();
         }
 
@@ -500,7 +413,7 @@
             const lvl = levels[state.levelIdx];
             state.currentWord = lvl.words[Math.floor(Math.random() * lvl.words.length)];
 
-            // Create Enemy
+            // Enemy Setup (Infinite wait mode)
             if(state.enemy) state.enemy.el.remove();
             
             const enemies = ["💣", "🦂", "🌪️", "🔥", "☄️", "👾", "🏴‍☠️"];
@@ -510,22 +423,20 @@
             el.style.left = "100%";
             document.getElementById('gameArea').appendChild(el);
 
-            state.enemy = {
-                el: el,
-                x: 100,
-                speed: lvl.speed * 0.08 // Adjusted speed
-            };
+            state.enemy = { el: el, x: 100 };
 
-            // Setup UI
+            // UI Reset
             const targetEl = document.getElementById('targetWord');
             targetEl.innerText = state.currentWord.t;
-            targetEl.classList.remove("text-green-400", "scale-110");
+            targetEl.classList.remove("text-emerald-400", "scale-110");
             targetEl.classList.add("text-white");
             
             const input = document.getElementById('wordInput');
             input.value = "";
             input.disabled = false;
             input.focus();
+            input.classList.remove("border-red-500", "border-emerald-500");
+            input.classList.add("border-slate-600");
 
             announce("พิมพ์คำว่า " + state.currentWord.t);
             startIdleTimer();
@@ -537,110 +448,130 @@
             lastTime = timestamp;
 
             if(state.enemy) {
-                // Move logic
-                state.enemy.x -= state.enemy.speed * (dt / 16);
-                state.enemy.el.style.left = state.enemy.x + "%";
-
-                // Hit base
-                if(state.enemy.x < 8) {
-                    takeDamage();
+                // Move logic: Approach until 20% then wait
+                if (state.enemy.x > 20) {
+                    state.enemy.x -= (speedBase * (dt / 1000));
+                    state.enemy.el.style.left = state.enemy.x + "%";
                 }
+                // No damage logic here - Infinite wait
             }
 
-            if(state.danger >= 100) gameOver(false);
             if(state.isPlaying) requestAnimationFrame(gameLoop);
         }
 
-        function takeDamage() {
-            clearTimers();
-            soundEngine.explosion();
-            
-            // Visuals
-            const rect = state.enemy.el.getBoundingClientRect();
-            spawnParticles(rect.left, rect.top + rect.height/2, 'damage');
-            document.body.classList.add('animate-shake');
-            setTimeout(() => document.body.classList.remove('animate-shake'), 500);
-
-            state.danger += 25;
-            document.getElementById('dangerBar').style.width = state.danger + "%";
-            
-            state.enemy.el.remove();
-            state.enemy = null;
-            
-            if(state.danger < 100) spawnWord();
-        }
-
-        // --- Input Handling ---
+        // --- Input & Key Handling ---
         const inputEl = document.getElementById('wordInput');
-        inputEl.addEventListener('input', (e) => {
-            if(!state.currentWord || !state.isPlaying) return;
-            
-            const val = e.target.value;
-            soundEngine.typing();
+        
+        // Typing Sound
+        inputEl.addEventListener('input', () => soundEngine.typing());
 
-            if(val === state.currentWord.t) {
-                success();
-            } else if(!state.currentWord.t.startsWith(val)) {
-                soundEngine.error();
-                inputEl.classList.add('ring-4', 'ring-red-500');
-                setTimeout(() => inputEl.classList.remove('ring-4', 'ring-red-500'), 200);
+        // Key Down Handler (Enter & Shift+Enter)
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    // Shift + Enter: Repeat Spelling
+                    triggerSpelling(true);
+                } else {
+                    // Enter: Submit
+                    checkSubmission();
+                }
             }
         });
 
-        // Prevent Enter
-        inputEl.addEventListener('keydown', e => { if(e.key === "Enter") e.preventDefault(); });
+        function triggerSpelling(force = false) {
+            clearTimers(); // Clear existing to restart
+            soundEngine.hint();
+            announce("จะสะกดให้ฟัง");
+            
+            const word = state.currentWord.t;
+            let delay = 1000;
 
-        function success() {
+            for(let char of word) {
+                const charName = getCharName(char);
+                const t = setTimeout(() => speak(charName), delay);
+                timers.spelling.push(t);
+                delay += 2500;
+            }
+            
+            // Repeat full word at end
+            const tLast = setTimeout(() => speak(word), delay);
+            timers.spelling.push(tLast);
+        }
+
+        function checkSubmission() {
+            if(!state.currentWord) return;
+            const val = inputEl.value.trim();
+
+            if (val === state.currentWord.t) {
+                handleSuccess();
+            } else {
+                handleError();
+            }
+        }
+
+        function handleError() {
+            soundEngine.error();
+            inputEl.classList.add('border-red-500');
+            // Shake animation
+            inputEl.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-10px)' },
+                { transform: 'translateX(10px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 300 });
+            
+            setTimeout(() => inputEl.classList.remove('border-red-500'), 500);
+            announce("ยังไม่ถูก ลองใหม่นะ");
+        }
+
+        function handleSuccess() {
             clearTimers();
             soundEngine.correct();
             soundEngine.convert();
-
-            // Score Logic
+            
             state.score += 10;
             state.levelScore += 10;
-            state.danger = Math.max(0, state.danger - 10);
             
-            // UI Update
+            // Visuals
             document.getElementById('score').innerText = state.score;
-            document.getElementById('dangerBar').style.width = state.danger + "%";
-            
-            const targetEl = document.getElementById('targetWord');
-            targetEl.classList.add("text-green-400", "scale-110");
+            document.getElementById('targetWord').classList.add("text-emerald-400", "scale-110");
+            inputEl.classList.replace("border-slate-600", "border-emerald-500");
             inputEl.disabled = true;
 
-            // Visual Transformation
-            const friends = ["💖", "🦄", "🌈", "🌻", "🕊️", "🎁", "🦋"];
+            const friends = ["💖", "🦄", "🌈", "🌻", "🕊️"];
             state.enemy.el.innerText = friends[Math.floor(Math.random() * friends.length)];
             state.enemy.el.classList.add('converted');
             
-            // Particles!
-            const rect = state.enemy.el.getBoundingClientRect();
-            spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2, 'success');
+            const rect = inputEl.getBoundingClientRect();
+            spawnParticles(rect.left + rect.width/2, rect.top);
 
-            // Feedback Popup
+            // Show Feedback Popup immediately
             showContextFeedback(state.currentWord);
             updateProgress();
 
-            // Delay for reading
+            // Wait 8s before next word
             setTimeout(() => {
                 if(state.enemy) { state.enemy.el.remove(); state.enemy = null; }
                 hideContextFeedback();
-
+                
                 if(state.levelScore >= 40) {
                     if(state.levelIdx < levels.length - 1) loadLevel(state.levelIdx + 1);
-                    else gameOver(true);
+                    else showWinScreen();
                 } else {
                     spawnWord();
                 }
-            }, 8000); // 8s delay as requested
+            }, 8000);
         }
 
-        // --- Helpers: Feedback & Timers ---
         function showContextFeedback(word) {
             const fb = document.getElementById('contextFeedback');
             document.getElementById('feedbackWord').innerText = word.t;
             document.getElementById('feedbackDesc').innerText = word.m;
             fb.classList.remove('hidden');
+            
+            // Speak the meaning automatically
+            speak(word.m);
         }
 
         function hideContextFeedback() {
@@ -653,38 +584,9 @@
             document.getElementById('levelProgressText').innerText = `${state.levelScore}/40`;
         }
 
-        function showFloatingText(text, x, y) {
-            const el = document.createElement('div');
-            el.innerText = text;
-            el.className = "fixed text-6xl font-black text-white drop-shadow-[0_5px_5px_rgba(0,0,0,1)] z-50 pointer-events-none animate-bounce";
-            el.style.left = (x - 100) + 'px';
-            el.style.top = y + 'px';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 2000);
-        }
-
-        // --- Timer Logic (Accessibility) ---
         function startIdleTimer() {
-            timers.idle = setTimeout(() => {
-                soundEngine.bell();
-                announce("จะสะกดให้ฟัง");
-                
-                const word = state.currentWord.t;
-                let delay = 1500; // Initial delay after announcing
-
-                // Spell each character by its full name
-                for(let char of word) {
-                    const charName = getCharName(char);
-                    const t = setTimeout(() => speak(charName), delay);
-                    timers.spelling.push(t);
-                    delay += 2500; // 2.5 seconds gap between characters
-                }
-
-                // Say the full word at the end
-                const tLast = setTimeout(() => speak(word), delay);
-                timers.spelling.push(tLast);
-
-            }, 10000); // 10 seconds idle trigger
+            // Still hint automatically if idle for too long (10s), but allow manual trigger too
+            timers.idle = setTimeout(() => triggerSpelling(false), 10000);
         }
 
         function clearTimers() {
@@ -694,34 +596,15 @@
             window.speechSynthesis.cancel();
         }
 
-        function gameOver(win) {
+        function showWinScreen() {
             state.isPlaying = false;
-            clearTimers();
-            
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
             document.getElementById('resultScreen').classList.add('flex');
-
+            
             const rank = levels[state.levelIdx].title;
             document.getElementById('finalRankName').innerText = rank;
-
-            const rTitle = document.getElementById('resultTitle');
-            const rMsg = document.getElementById('resultMessage');
-            const rEmoji = document.getElementById('resultEmoji');
-
-            if(win) {
-                rTitle.innerText = "MISSION COMPLETE";
-                rMsg.innerText = `สุดยอดมาก ${state.playerName}! คุณคือฮีโร่ตัวจริง`;
-                rEmoji.innerText = "🌏🕊️";
-                soundEngine.levelUp();
-                spawnParticles(window.innerWidth/2, window.innerHeight/2, 'success');
-            } else {
-                rTitle.innerText = "GAME OVER";
-                rMsg.innerText = "อย่าเพิ่งยอมแพ้! โลกยังต้องการคุณ";
-                rEmoji.innerText = "💔";
-                soundEngine.error();
-            }
-            announce(rTitle.innerText);
+            soundEngine.levelUp();
         }
     </script>
 </body>
